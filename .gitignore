@@ -278,3 +278,4 @@ tests/report/
 
 # Virtual enviroment
 venv/
+guildroom/db\.sqlite3
