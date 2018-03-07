@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'tikplay',
     # Add your apps here to enable them
     'django.contrib.admin',
     'django.contrib.auth',

@@ -3,8 +3,10 @@ Definition of urls for guildroom.
 """
 
 from datetime import datetime
-from django.conf.urls import url
+from django.conf.urls import url, include
 import django.contrib.auth.views
+
+from tikplay import urls
 
 # Uncomment the next lines to enable the admin:
 # from django.conf.urls import include
@@ -17,4 +19,7 @@ urlpatterns = [
 
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
+
+    # Tikplay
+    url(r'^', include('tikplay.urls')),
 ]

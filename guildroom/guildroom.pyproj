@@ -37,13 +37,27 @@
     <Compile Include="guildroom\settings.py" />
     <Compile Include="guildroom\urls.py" />
     <Compile Include="guildroom\wsgi.py" />
+    <Compile Include="tikplay\admin.py" />
+    <Compile Include="tikplay\apps.py" />
+    <Compile Include="tikplay\migrations\__init__.py" />
+    <Compile Include="tikplay\models.py" />
+    <Compile Include="tikplay\tests.py" />
+    <Compile Include="tikplay\urls.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="tikplay\views.py" />
+    <Compile Include="tikplay\__init__.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="guildroom\" />
+    <Folder Include="tikplay\" />
+    <Folder Include="tikplay\migrations\" />
+    <Folder Include="tikplay\templates\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="requirements.txt" />
     <Content Include="db.sqlite3" />
+    <Content Include="tikplay\templates\index.html" />
   </ItemGroup>
   <ItemGroup>
     <None Include="readme.html">
