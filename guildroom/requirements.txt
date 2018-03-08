@@ -1,6 +1,8 @@
 Django==1.11.11
 pafy==0.5.4
 pip==9.0.1
+python-vlc==3.0.102
 pytz==2018.3
 setuptools==38.5.2
 wheel==0.30.0
+youtube-dl==2018.3.3
