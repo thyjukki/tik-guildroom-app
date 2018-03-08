@@ -1,9 +1,9 @@
 from django.shortcuts import render
-import pafy
-import vlc
 
 from tikplay.forms import YoutubeForm
+from tikplay.models import Song
 
+import pafy
 # Create your views here.
 def add_song(request):
     if request.method == 'POST':
@@ -11,11 +11,10 @@ def add_song(request):
 
         if form.is_valid():
             youtube_url = form.cleaned_data['youtube_url']
-            video = pafy.new(youtube_url)
-            audio_url = video.getbestaudio().url
-            print (audio_url)
-            player = vlc.MediaPlayer(audio_url)
-            player.play()
+            video = pafy.new(youtube_url, basic=False)
+            print (video.title)
+            song = Song(url=youtube_url, title=video.title, audio_url=video.getbestaudio().url)
+            song.save()
     else:
         form = YoutubeForm()
 
