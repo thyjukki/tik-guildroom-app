@@ -39,6 +39,9 @@
     <Compile Include="guildroom\wsgi.py" />
     <Compile Include="tikplay\admin.py" />
     <Compile Include="tikplay\apps.py" />
+    <Compile Include="tikplay\forms.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="tikplay\migrations\__init__.py" />
     <Compile Include="tikplay\models.py" />
     <Compile Include="tikplay\tests.py" />
@@ -57,7 +60,8 @@
   <ItemGroup>
     <Content Include="requirements.txt" />
     <Content Include="db.sqlite3" />
-    <Content Include="tikplay\templates\index.html" />
+    <Content Include="tikplay\templates\base_generic.html" />
+    <Content Include="tikplay\templates\play_song.html" />
   </ItemGroup>
   <ItemGroup>
     <None Include="readme.html">
