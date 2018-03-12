@@ -69,11 +69,13 @@ def get_current(request):
 @jsonp
 def pop_current(request):
     try:
+        print("Delete: {}".format(Song.objects.earliest()))
         Song.objects.earliest().delete()
     except:
         return json.dumps(json.loads("[]"), indent=4)
     try:
         output = serializers.serialize('json', [Song.objects.earliest()])
+        print("New: {}".format(Song.objects.earliest()))
         playerCommandQueue.put("NEW")
         return json.dumps(json.loads(output), indent=4)
     except:
