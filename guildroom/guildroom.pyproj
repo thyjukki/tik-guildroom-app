@@ -48,6 +48,9 @@
     <Compile Include="tikplay\migrations\__init__.py" />
     <Compile Include="tikplay\models.py" />
     <Compile Include="tikplay\tests.py" />
+    <Compile Include="tikplay\tikplayer.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="tikplay\urls.py">
       <SubType>Code</SubType>
     </Compile>
