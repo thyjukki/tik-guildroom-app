@@ -43,7 +43,9 @@ class Video:
         self.title = item['title']
         self.description = item['description']
         self.channel = item['channelTitle']
-        self.image = item['thumbnails']['maxres']['url']
+        image_items = item['thumbnails'].items()
+        best_quality = list(image_items)[-1][1]
+        self.image = best_quality['url']
         
 class NotYoutubeUrlException(Exception):
     pass
