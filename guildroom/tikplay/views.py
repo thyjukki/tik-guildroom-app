@@ -3,9 +3,7 @@ from django.db.models import Max
 
 from tikplay.forms import YoutubeForm
 from tikplay.models import Song
-from guildroom.settings import YOUTUBE_API_KEY
-import urllib.parse as urlparse
-import requests
+from tikplay.youtube import get_id_from_url, get_video
 # Create your views here.
 def add_song(request):
 
@@ -14,20 +12,25 @@ def add_song(request):
 
         if form.is_valid():
             youtube_url = form.cleaned_data['youtube_url']
+            video_id = get_id_from_url(youtube_url)
+            video = get_video(video_id)
 
-            url_data = urlparse.urlparse(youtube_url)
-            query = urlparse.parse_qs(url_data.query)
-            video = query["v"][0]
+            print (video.title)
 
-            get_url = 'https://www.googleapis.com/youtube/v3/videos?part=id%2C+snippet&id={}&key={}'.format(video, YOUTUBE_API_KEY)
-            result = requests.get(get_url)
-            print (result.json())
-
-            position_count = song_list = Song.objects.all().aggregate(Max('rating'))
+            try:
+                latest = Song.objects.latest()
+                position_count = latest.position+1
+            except Song.DoesNotExist:
+                position_count = 0
 
 
 
-            song = Song.objects.get_or_create(url=youtube_url, defaults={ 'title': video.title, 'audio_url': video.getbestaudio().url, 'position': position_count})[0]
+            song = Song(video_id=video.id,
+                        title=video.title,
+                        description=video.description,
+                        channel=video.channel,
+                        image=video.image,
+                        position=(position_count))
             song.save()
     else:
         form = YoutubeForm()
