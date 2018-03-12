@@ -1,10 +1,18 @@
 from django.shortcuts import render
-from django.db.models import Max
+from django.core import serializers
+from django.http import HttpResponse
+
+from rest_framework.decorators import api_view
 
 from tikplay.forms import YoutubeForm
 from tikplay.models import Song
 from tikplay.youtube import get_id_from_url, get_video
+from tikplay.decorators import jsonp
+
+import json
 # Create your views here.
+
+@api_view(['POST', 'GET'])
 def add_song(request):
 
     if request.method == 'POST':
@@ -37,3 +45,9 @@ def add_song(request):
          
     song_list = Song.objects.all()
     return render(request, 'add_song.html', {'form': form, 'song_list': song_list})
+
+@api_view(['GET'])
+@jsonp
+def get_queue(request):
+    output = serializers.serialize('json', Song.objects.all())
+    return json.dumps(json.loads(output), indent=4)

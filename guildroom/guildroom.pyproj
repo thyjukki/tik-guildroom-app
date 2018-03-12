@@ -39,6 +39,9 @@
     <Compile Include="guildroom\wsgi.py" />
     <Compile Include="tikplay\admin.py" />
     <Compile Include="tikplay\apps.py" />
+    <Compile Include="tikplay\decorators.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="tikplay\forms.py">
       <SubType>Code</SubType>
     </Compile>
