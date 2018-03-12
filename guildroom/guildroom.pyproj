@@ -61,7 +61,7 @@
     <Content Include="requirements.txt" />
     <Content Include="db.sqlite3" />
     <Content Include="tikplay\templates\base_generic.html" />
-    <Content Include="tikplay\templates\play_song.html" />
+    <Content Include="tikplay\templates\add_song.html" />
   </ItemGroup>
   <ItemGroup>
     <None Include="readme.html">

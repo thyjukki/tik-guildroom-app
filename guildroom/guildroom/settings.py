@@ -124,3 +124,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATIC_ROOT = posixpath.join(*(BASE_DIR.split(os.path.sep) + ['static']))
+
+YOUTUBE_API_KEY = 'AIzaSyDy9eptlzWnZIM-QSXbjk49zmXHmQiR_1k'

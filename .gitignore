@@ -275,6 +275,7 @@ tests/coverage_html/
 tests/.coverage
 build/
 tests/report/
+guildroom/static/
 
 # Virtual enviroment
 venv/

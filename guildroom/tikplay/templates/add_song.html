@@ -1,0 +1,22 @@
+﻿{% extends "base_generic.html" %}
+{% block content %}
+<div>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        {{ form.youtube_url.errors }}
+        <label for="{{ form.youtube_url.id_for_label }}">Youtube link:
+        </label>
+        {{ form.youtube_url }}
+        <input type="submit" value="Submit" />
+    </form>
+</div>
+<div>
+    <ul>Queue</ul>
+    <ul>
+    {% for song in song_list %}
+        <li>{{ song.title }}</li>
+    {% endfor %}
+    </ul>
+</div>
+{% endblock %}
