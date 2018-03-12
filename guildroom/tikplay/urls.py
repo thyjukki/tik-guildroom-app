@@ -7,4 +7,5 @@ urlpatterns = [
     url(r'^$', views.add_song, name='index'),
     url(r'^api/queue/$', views.get_queue, name='api-queue'),
     url(r'^api/current/$', views.get_current, name='api-current'),
+    url(r'^api/pop/$', views.pop_current, name='api-pop'),
 ]

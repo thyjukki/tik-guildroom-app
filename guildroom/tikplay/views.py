@@ -55,5 +55,18 @@ def get_queue(request):
 @api_view(['GET'])
 @jsonp
 def get_current(request):
-    output = serializers.serialize('json', [Song.objects.earliest()])
-    return json.dumps(json.loads(output), indent=4)
+    try:
+        output = serializers.serialize('json', [Song.objects.earliest()])
+        return json.dumps(json.loads(output), indent=4)
+    except:
+        return json.dumps(json.loads("[]"), indent=4)
+
+@api_view(['GET'])
+@jsonp
+def pop_current(request):
+    try:
+        Song.objects.earliest().delete()
+        output = serializers.serialize('json', [Song.objects.earliest()])
+        return json.dumps(json.loads(output), indent=4)
+    except:
+        return json.dumps(json.loads("[]"), indent=4)
