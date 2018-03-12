@@ -8,6 +8,7 @@ from tikplay.forms import YoutubeForm
 from tikplay.models import Song
 from tikplay.youtube import get_id_from_url, get_video
 from tikplay.decorators import jsonp
+from tikplay import playerCommandQueue
 
 import json
 # Create your views here.
@@ -40,6 +41,9 @@ def add_song_view(request):
                         image=video.image,
                         position=(position_count))
             song.save()
+
+            if position_count == 0:
+                playerCommandQueue.put("NEW")
     else:
         form = YoutubeForm()
          
@@ -66,9 +70,14 @@ def get_current(request):
 def pop_current(request):
     try:
         Song.objects.earliest().delete()
+    except:
+        return json.dumps(json.loads("[]"), indent=4)
+    try:
         output = serializers.serialize('json', [Song.objects.earliest()])
+        playerCommandQueue.put("NEW")
         return json.dumps(json.loads(output), indent=4)
     except:
+        playerCommandQueue.put("CLEAR")
         return json.dumps(json.loads("[]"), indent=4)
 
 
@@ -102,5 +111,19 @@ def add_song(request):
                 position=(position_count))
     song.save()
          
+    if position_count == 0:
+        playerCommandQueue.put("NEW")
     output = serializers.serialize('json', Song.objects.all())
     return json.dumps(json.loads(output), indent=4)
+
+@api_view(['GET'])
+@jsonp
+def play(request):
+    playerCommandQueue.put("PLAY")
+    return json.dumps({"message": "OK"}, indent=4)
+
+@api_view(['GET'])
+@jsonp
+def pause(request):
+    playerCommandQueue.put("PAUSE")
+    return json.dumps({"message": "OK"}, indent=4)

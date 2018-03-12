@@ -10,4 +10,6 @@ urlpatterns = [
     url(r'^api/current/$', views.get_current, name='api-current'),
     url(r'^api/pop/$', views.pop_current, name='api-pop'),
     url(r'^api/add/$', views.add_song, name='api-add'),
+    url(r'^api/play/$', views.play, name='api-play'),
+    url(r'^api/pause/$', views.pause, name='api-pause'),
 ]
