@@ -13,7 +13,7 @@ import json
 # Create your views here.
 
 @api_view(['POST', 'GET'])
-def add_song(request):
+def add_song_view(request):
 
     if request.method == 'POST':
         form = YoutubeForm(request.POST)
@@ -70,3 +70,37 @@ def pop_current(request):
         return json.dumps(json.loads(output), indent=4)
     except:
         return json.dumps(json.loads("[]"), indent=4)
+
+
+@api_view(['GET'])
+@jsonp
+def add_song(request):
+    url = request.GET.get('url')
+    video_id = request.GET.get('id')
+    if url: 
+        video_id = get_id_from_url(url)
+    elif not video_id:
+        return json.dumps({"error": "Missing parameter"}, indent=4)
+    
+    video = get_video(video_id)
+
+    print (video.title)
+
+    try:
+        latest = Song.objects.latest()
+        position_count = latest.position+1
+    except Song.DoesNotExist:
+        position_count = 0
+
+
+
+    song = Song(video_id=video.id,
+                title=video.title,
+                description=video.description,
+                channel=video.channel,
+                image=video.image,
+                position=(position_count))
+    song.save()
+         
+    output = serializers.serialize('json', Song.objects.all())
+    return json.dumps(json.loads(output), indent=4)
