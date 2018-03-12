@@ -51,3 +51,9 @@ def add_song(request):
 def get_queue(request):
     output = serializers.serialize('json', Song.objects.all())
     return json.dumps(json.loads(output), indent=4)
+
+@api_view(['GET'])
+@jsonp
+def get_current(request):
+    output = serializers.serialize('json', [Song.objects.earliest()])
+    return json.dumps(json.loads(output), indent=4)
