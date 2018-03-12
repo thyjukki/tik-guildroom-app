@@ -70,10 +70,6 @@ class PlayerThread (threading.Thread):
     def song_finished(self, event):
         get_url = '{}/api/pop'.format(HOSTADRESS)
         result = requests.get(get_url)
-        data = result.json()
-
-        if not data:
-            return
     
     def play(self):
         self.playing = True
