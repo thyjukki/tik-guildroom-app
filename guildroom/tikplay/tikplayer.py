@@ -8,6 +8,10 @@ import youtube_dl
 
 HOSTADRESS = "http://localhost:8000"
 
+class Volume:
+    def __int__(self, volume):
+        self.volume = volume
+
 class PlayerThread (threading.Thread):
     def __init__(self, queue):
         threading.Thread.__init__(self)
@@ -29,14 +33,19 @@ class PlayerThread (threading.Thread):
     
     def parse_message(self, val):
         print("Player: " + val)
-        if val == "PLAY":
-            self.play()
-        if val == "PAUSE":
-            self.pause()
-        if val == "NEW":
-            self.set_current_song()
-            if self.playing:
+        if type(val) is str:
+            if val == "PLAY":
                 self.play()
+            if val == "PAUSE":
+                self.pause()
+            if val == "CLEAR":
+                self.clear()
+            if val == "NEW":
+                self.set_current_song()
+                if self.playing:
+                    self.play()
+        elif type(val) is Volume:
+            self.set_volume(val.volume)
 
     def set_current_song(self):
         get_url = '{}/api/current'.format(HOSTADRESS)
@@ -73,4 +82,10 @@ class PlayerThread (threading.Thread):
     def pause(self):
         self.playing = False
         self.player.pause()
+
+    def clear(self):
+        self.player.stop()
+
+    def set_volume(self, volume):
+        self.player.audio_set_volume(volume)
 

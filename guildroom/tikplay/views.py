@@ -70,10 +70,14 @@ def get_current(request):
 def pop_current(request):
     try:
         Song.objects.earliest().delete()
+    except:
+        return json.dumps(json.loads("[]"), indent=4)
+    try:
         output = serializers.serialize('json', [Song.objects.earliest()])
         playerCommandQueue.put("NEW")
         return json.dumps(json.loads(output), indent=4)
     except:
+        playerCommandQueue.put("CLEAR")
         return json.dumps(json.loads("[]"), indent=4)
 
 
