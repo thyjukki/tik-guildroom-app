@@ -49,6 +49,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="tikplay\views.py" />
+    <Compile Include="tikplay\youtube.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="tikplay\__init__.py" />
   </ItemGroup>
   <ItemGroup>
