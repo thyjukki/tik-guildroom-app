@@ -50,7 +50,11 @@ def add_song_view(request):
          
     song_list = Song.objects.all()
     ip = get('https://api.ipify.org').text
-    return render(request, 'add_song.html', {'form': form, 'song_list': song_list, 'ip': ip})
+    try:
+        current_song = Song.objects.earliest()
+    except:
+        current_song = None
+    return render(request, 'add_song.html', {'form': form, 'song_list': song_list, 'ip': ip, 'current_song': current_song})
 
 @api_view(['GET'])
 @jsonp
