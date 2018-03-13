@@ -47,6 +47,12 @@
 
 {% block content %}
 <div>
+    <header>
+        <h1>TiK Play 2.0 (beta)</h1>
+        <h3>Add songs to queue by visiting {{ ip }}:8000 on your device</h3>
+    </header>
+</div>
+<div>
     <form method="post" id="post-form">
         {% csrf_token %}
         {{ form.non_field_errors }}
