@@ -45,9 +45,9 @@ class PlayerThread (threading.Thread):
             if val == "CLEAR":
                 self.clear()
             if val == "NEW":
+                self.stop()
                 self.set_current_song()
-                if self.playing:
-                    self.play()
+                self.play()
         elif type(val) is Volume:
             self.set_volume(val.volume)
 
@@ -83,6 +83,9 @@ class PlayerThread (threading.Thread):
         self.player.pause()
 
     def clear(self):
+        self.stop()
+
+    def stop(self):
         self.player.stop()
 
     def set_volume(self, volume):
