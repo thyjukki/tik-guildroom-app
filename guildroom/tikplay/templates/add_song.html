@@ -1,4 +1,36 @@
 ﻿{% extends "base_generic.html" %}
+{% load static %}
+
+{% block javascript %}
+<script>
+    function refreshView() {
+
+        $.getJSON("{% url 'api-queue' %}", function( data ) {
+            $("#songList").empty();
+            $.each( data, function( i ) {
+                song = data[i].fields;
+                $("#songList").append( "<li>" + song.title + "</li>" );
+            });
+        });
+    }
+
+    $("#playButton").click(function () {
+        $.get("{% url 'api-play' %}");
+    });
+
+    $("#pauseButton").click(function () {
+        $.get("{% url 'api-pause' %}");
+    });
+
+    $("#nextButton").click(function () {
+        $.get("{% url 'api-pop' %}");
+        refreshView();
+    });
+
+    var interval = setInterval(refreshView, 5000);
+</script>
+{% endblock %}
+
 {% block content %}
 <div>
     <form method="post">
@@ -11,23 +43,20 @@
         <input type="submit" value="Submit" />
     </form>
 </div>
-<div class="container">
-    <button onclick="">
-        <i class="glyphicon glyphicon-play"></i>
-        Play/Pause
+<div class="controls">
+    <button id="playButton" class="btn btn-info btn-lg">
+        <span class="glyphicon glyphicon-play"></span> Play
     </button>
-  
-    <div class="volbox">
-        Volume:<br/>
-        <input id="volume" type="range" min="0" max="100" value="100" step="5">
-    </div>
-  
-    <div id="equalizer" style="margin-top: 10px"></div>
-  
+    <button id="pauseButton" class="btn btn-info btn-lg">
+        <span class="glyphicon glyphicon-pause"></span> Pause
+    </button>
+    <button id="nextButton" class="btn btn-info btn-lg">
+        <span class="glyphicon glyphicon-fast-forward"></span> Next
+    </button>
 </div>
 <div>
     <ul>Queue</ul>
-    <ul>
+    <ul id="songList">
     {% for song in song_list %}
         <li>{{ song }}</li>
     {% endfor %}
