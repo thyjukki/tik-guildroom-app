@@ -17,6 +17,9 @@ class PlayerThread (threading.Thread):
         threading.Thread.__init__(self)
         self.queue = queue
         self.player = vlc.MediaPlayer()
+        
+        events = self.player.event_manager()
+        events.event_attach(vlc.EventType.MediaPlayerEndReached, self.song_finished)
         self.playing = True
     def run(self):
         time.sleep(5)
@@ -27,6 +30,7 @@ class PlayerThread (threading.Thread):
             try:
                 val = self.queue.get(timeout=2)
                 self.parse_message(val)
+                self.queue.task_done()
             except:
                 pass
         print ("Ending player")
@@ -64,10 +68,9 @@ class PlayerThread (threading.Thread):
             audio_url = info_dict.get("url", None)
 
         self.player.set_media(vlc.Media(audio_url))
-        events = self.player.event_manager()
-        events.event_attach(vlc.EventType.MediaPlayerEndReached, self.song_finished)
 
     def song_finished(self, event):
+        print("Song finished")
         get_url = '{}/api/pop'.format(HOSTADRESS)
         result = requests.get(get_url)
     
