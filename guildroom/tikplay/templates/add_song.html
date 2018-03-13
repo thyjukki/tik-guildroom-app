@@ -23,6 +23,7 @@
     });
 
     $("#nextButton").click(function () {
+
         $.get("{% url 'api-pop' %}");
         refreshView();
     });
@@ -30,9 +31,14 @@
     $('#post-form').on('submit', function(event){
         event.preventDefault();
 
-        var url = "{% url 'api-add' %}?url=" + $('#{{ form.youtube_url.id_for_label }}').val();
-        $.get(url);
-        refreshView();
+        $.ajax({
+            async: false,
+            type: 'GET',
+            url: "{% url 'api-add' %}?url=" + $('#{{ form.youtube_url.id_for_label }}').val(),
+            success: function(data) {
+                refreshView();
+            }
+        });
     });
 
     var interval = setInterval(refreshView, 5000);
