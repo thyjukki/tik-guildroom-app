@@ -4,6 +4,7 @@ import sys
 from tikplay import views
 from queue import Queue
 from tikplay.tikplayer import PlayerThread
+from tikplay import playerCommandQueue
 
 if 'runserver' in sys.argv:
     playerThread = PlayerThread(playerCommandQueue)
