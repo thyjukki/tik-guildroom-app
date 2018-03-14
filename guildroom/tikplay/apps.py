@@ -12,6 +12,7 @@ class tikplayConfig(AppConfig):
         from queue import Queue
         from tikplay.tikplayer import PlayerThread
 
-        playerThread = PlayerThread(playerCommandQueue)
-        playerThread.daemon = True
-        playerThread.start()
+        if not playerThread:
+            playerThread = PlayerThread(playerCommandQueue)
+            playerThread.daemon = True
+            playerThread.start()
