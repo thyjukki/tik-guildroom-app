@@ -1,7 +1,14 @@
 # tikplay/urls.py
 from django.conf.urls import url
-
+import sys
 from tikplay import views
+from queue import Queue
+from tikplay.tikplayer import PlayerThread
+
+if 'runserver' in sys.argv:
+    playerThread = PlayerThread(playerCommandQueue)
+    playerThread.daemon = True
+    playerThread.start()
 
 urlpatterns = [
     url(r'^$', views.add_song_view, name='index'),
