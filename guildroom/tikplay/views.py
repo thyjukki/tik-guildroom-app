@@ -54,7 +54,7 @@ def add_song_view(request):
         current_song = Song.objects.earliest()
     except:
         current_song = None
-    return render(request, 'add_song.html', {'form': form, 'song_list': song_list, 'ip': ip, 'current_song': current_song})
+    return render(request, 'add_song.html', {'form': form, 'song_list': song_list, 'ip': ip})
 
 @api_view(['GET'])
 @jsonp

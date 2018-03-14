@@ -6,7 +6,7 @@ import json
 import vlc
 import youtube_dl
 
-HOSTADRESS = "http://localhost:8000"
+HOSTADRESS = "http://localhost"
 
 class Volume:
     def __int__(self, volume):
