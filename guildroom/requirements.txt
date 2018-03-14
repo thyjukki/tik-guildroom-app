@@ -3,9 +3,11 @@ billiard==3.5.0.3
 certifi==2018.1.18
 chardet==3.0.4
 Django==1.11.11
+django-cors-headers==2.2.0
 djangorestframework==3.7.7
 idna==2.6
 kombu==4.1.0
+pafy==0.5.4
 pip==9.0.1
 python-vlc==3.0.102
 pytz==2018.3
