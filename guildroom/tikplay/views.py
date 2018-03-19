@@ -95,11 +95,20 @@ def add_song(request):
     url = request.GET.get('url')
     video_id = request.GET.get('id')
     if url: 
-        video_id = get_id_from_url(url)
-    elif not video_id:
+        try:
+            video_id = get_id_from_url(url)
+        except Exception as e:
+            return json.dumps({"error": str(e)}, indent=4)
+
+    
+    if not video_id:
         return json.dumps({"error": "Missing parameter"}, indent=4)
     
-    video = get_video(video_id)
+    
+    try:
+        video = get_video(video_id)
+    except Exception as e:
+        return json.dumps({"error": str(e)}, indent=4)
 
     print (video.title)
 
