@@ -130,7 +130,7 @@ def add_song(request):
          
     if position_count == 0:
         playerCommandQueue.put("NEW")
-    output = serializers.serialize('json', Song.objects.all())
+    output = serializers.serialize('json', [song])
     return json.dumps(json.loads(output), indent=4)
 
 @api_view(['GET'])
