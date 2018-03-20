@@ -2,6 +2,10 @@
 import json
 import vlc
 import youtube_dl
+from tikplay.tasks import pop
+from tikplay.models import Song
+import threading
+
 
 class Volume:
     def __int__(self, volume):
@@ -21,7 +25,6 @@ class TiKPlayer ():
 
     def set_current_song(self):
         print("set_current_song")
-        from tikplay.models import Song
         try:
             song = Song.objects.earliest()
         except:
@@ -33,10 +36,10 @@ class TiKPlayer ():
         self.player.set_media(vlc.Media(song.audio_url))
 
     def song_finished(self, event):
-        from tikplay import tasks
         print("Song finished")
-        if tasks.pop():
-            self.new()
+        newSong = pop()
+        if newSong:
+            threading.Thread(target=self.new).start()
     
     def play(self):
         self.playing = True
@@ -67,3 +70,5 @@ class TiKPlayer ():
     def is_playing(self):
         return self.player.is_playing()
 
+    
+tikPlayer = TiKPlayer()

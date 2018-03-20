@@ -3,7 +3,6 @@ from django.conf.urls import url
 import sys
 from tikplay import views
 from queue import Queue
-from tikplay import tikPlayer
 
 urlpatterns = [
     url(r'^$', views.add_song_view, name='index'),
