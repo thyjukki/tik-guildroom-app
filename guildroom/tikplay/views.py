@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.core import serializers
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 
 from rest_framework.decorators import api_view
 
@@ -45,16 +45,17 @@ def add_song_view(request):
             song.save()
 
             get_audio_url(song.id, position_count == 0)
+
+            return HttpResponseRedirect('/')
     else:
         form = YoutubeForm()
          
     song_list = Song.objects.all()
-    ip = get('https://api.ipify.org').text
     try:
         current_song = Song.objects.earliest()
     except:
         current_song = None
-    return render(request, 'add_song.html', {'form': form, 'song_list': song_list, 'ip': ip, 'current_song': current_song, 'playing': tikPlayer.is_playing()})
+    return render(request, 'add_song.html', {'form': form, 'song_list': song_list, 'current_song': current_song, 'playing': tikPlayer.is_playing()})
 
 @api_view(['GET'])
 @jsonp
