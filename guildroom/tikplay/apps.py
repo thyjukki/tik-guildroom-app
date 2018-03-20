@@ -6,6 +6,7 @@ class tikplayConfig(AppConfig):
     name = 'tikplay'
 
     def ready(self):
-        if 'runserver' in sys.argv:
+        server = request.META.get('wsgi.file_wrapper', None)
+        if 'runserver' in sys.argv or server:
             from tikplay import tikPlayer
             tikPlayer.run()
