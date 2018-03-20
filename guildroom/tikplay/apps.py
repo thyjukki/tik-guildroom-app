@@ -1,12 +1,13 @@
 from django.apps import AppConfig
 import sys
 
+WSGI = 'django.core.wsgi' in sys.modules
+
 
 class tikplayConfig(AppConfig):
     name = 'tikplay'
 
     def ready(self):
-        server = request.META.get('wsgi.file_wrapper', None)
-        if 'runserver' in sys.argv or server:
+        if 'runserver' in sys.argv or WSGI:
             from tikplay import tikPlayer
             tikPlayer.run()
