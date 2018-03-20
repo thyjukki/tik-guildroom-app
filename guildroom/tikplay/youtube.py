@@ -16,6 +16,11 @@ def get_id_from_url(url):
             video = url_data.path.split('/')[1]
         except:
             raise NoIdYoutubeUrlException("Could not find id field")
+    elif url_data.hostname == 'www.m.youtube.com' or url_data.hostname == 'm.youtube.com':
+        try:
+            video = query["v"][0]
+        except:
+            raise NoIdYoutubeUrlException("Could not find id field")
     else:
         raise NotYoutubeUrlException('Not a youtube link')
 
