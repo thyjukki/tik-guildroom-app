@@ -8,6 +8,7 @@ class Song(models.Model):
     channel = models.TextField(default="")
     image = models.TextField(default="")
     position = models.IntegerField()
+    audio_url = models.TextField(default="")
 
     class Meta:
         ordering = ['position']

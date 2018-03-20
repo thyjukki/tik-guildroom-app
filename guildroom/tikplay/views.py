@@ -8,7 +8,8 @@ from tikplay.forms import YoutubeForm
 from tikplay.models import Song
 from tikplay.youtube import get_id_from_url, get_video
 from tikplay.decorators import jsonp
-from tikplay import playerCommandQueue
+from tikplay import tikPlayer
+from tikplay.tasks import get_audio_url, pop
 
 import json
 from requests import get
@@ -43,8 +44,7 @@ def add_song_view(request):
                         position=(position_count))
             song.save()
 
-            if position_count == 0:
-                playerCommandQueue.put("NEW")
+            get_audio_url(song.id, position_count == 0)
     else:
         form = YoutubeForm()
          
@@ -54,7 +54,7 @@ def add_song_view(request):
         current_song = Song.objects.earliest()
     except:
         current_song = None
-    return render(request, 'add_song.html', {'form': form, 'song_list': song_list, 'ip': ip})
+    return render(request, 'add_song.html', {'form': form, 'song_list': song_list, 'ip': ip, 'current_song': current_song, 'playing': tikPlayer.is_playing()})
 
 @api_view(['GET'])
 @jsonp
@@ -71,21 +71,19 @@ def get_current(request):
     except:
         return json.dumps(json.loads("[]"), indent=4)
 
+
 @api_view(['GET'])
 @jsonp
 def pop_current(request):
-    try:
-        print("Delete: {}".format(Song.objects.earliest()))
-        Song.objects.earliest().delete()
-    except:
-        return json.dumps(json.loads("[]"), indent=4)
-    try:
+
+    nextSong = pop()
+
+    if nextSong:
         output = serializers.serialize('json', [Song.objects.earliest()])
-        print("New: {}".format(Song.objects.earliest()))
-        playerCommandQueue.put("NEW")
+        tikPlayer.new()
         return json.dumps(json.loads(output), indent=4)
-    except:
-        playerCommandQueue.put("CLEAR")
+    else:
+        tikPlayer.clear()
         return json.dumps(json.loads("[]"), indent=4)
 
 
@@ -127,20 +125,39 @@ def add_song(request):
                 image=video.image,
                 position=(position_count))
     song.save()
-         
-    if position_count == 0:
-        playerCommandQueue.put("NEW")
+
+    get_audio_url(song.id, position_count == 0)
+
     output = serializers.serialize('json', [song])
     return json.dumps(json.loads(output), indent=4)
 
 @api_view(['GET'])
 @jsonp
 def play(request):
-    playerCommandQueue.put("PLAY")
+    tikPlayer.play()
     return json.dumps({"message": "OK"}, indent=4)
 
 @api_view(['GET'])
 @jsonp
 def pause(request):
-    playerCommandQueue.put("PAUSE")
+    tikPlayer.pause()
     return json.dumps({"message": "OK"}, indent=4)
+
+
+@api_view(['GET'])
+@jsonp
+def toggleplay(request):
+    if tikPlayer.is_playing():
+        tikPlayer.pause()
+        return json.dumps({"message": "PAUSE"}, indent=4)
+    else:
+        tikPlayer.play()
+        return json.dumps({"message": "PLAY"}, indent=4)
+
+@api_view(['GET'])
+@jsonp
+def is_playing(request):
+    if tikPlayer.is_playing():
+        return json.dumps({"message": "PLAYING"}, indent=4)
+    else:
+        return json.dumps({"message": "PAUSED"}, indent=4)

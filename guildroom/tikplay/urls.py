@@ -3,13 +3,7 @@ from django.conf.urls import url
 import sys
 from tikplay import views
 from queue import Queue
-from tikplay.tikplayer import PlayerThread
-from tikplay import playerCommandQueue
-
-if 'runserver' in sys.argv:
-    playerThread = PlayerThread(playerCommandQueue)
-    playerThread.daemon = True
-    playerThread.start()
+from tikplay import tikPlayer
 
 urlpatterns = [
     url(r'^$', views.add_song_view, name='index'),
@@ -19,5 +13,7 @@ urlpatterns = [
     url(r'^api/pop/$', views.pop_current, name='api-pop'),
     url(r'^api/add/$', views.add_song, name='api-add'),
     url(r'^api/play/$', views.play, name='api-play'),
+    url(r'^api/toggleplay/$', views.toggleplay, name='api-toggleplay'),
+    url(r'^api/is_paused/$', views.is_playing, name='api-is_playing'),
     url(r'^api/pause/$', views.pause, name='api-pause'),
 ]

@@ -27,14 +27,21 @@
                     $("#currentSong").append("<img src=" + song.image + " alt='Cover' width='300'>");
                 }
             });
+
+        $.getJSON("{% url 'api-is_playing' %}",
+            function(data) {
+                $("#playButton").empty();
+                if (data["message"] === "PLAYING") {
+                    $("#playButton").append('<span class="glyphicon glyphicon-pause"></span> Pause');
+                } else {
+                    $("#playButton").append('<span class="glyphicon glyphicon-play"></span> Play');
+                }
+            });
     }
 
     $("#playButton").click(function () {
-        $.get("{% url 'api-play' %}");
-    });
-
-    $("#pauseButton").click(function () {
-        $.get("{% url 'api-pause' %}");
+        $.get("{% url 'api-toggleplay' %}");
+        refreshView();
     });
 
     $("#nextButton").click(function () {
@@ -100,10 +107,11 @@
 {% if user.is_authenticated %}
 <div class="controls">
     <button id="playButton" class="btn btn-info btn-lg">
-        <span class="glyphicon glyphicon-play"></span> Play
-    </button>
-    <button id="pauseButton" class="btn btn-info btn-lg">
+        {% if playing %}
         <span class="glyphicon glyphicon-pause"></span> Pause
+        {% else %}
+        <span class="glyphicon glyphicon-play"></span> Play
+        {% endif %}
     </button>
     <button id="nextButton" class="btn btn-info btn-lg">
         <span class="glyphicon glyphicon-fast-forward"></span> Next

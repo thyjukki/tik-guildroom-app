@@ -1,6 +1,6 @@
 # my_app/__init__.py
-from queue import Queue
+from tikplay.tikplayer import TiKPlayer
 
 default_app_config = 'tikplay.apps.tikplayConfig'
 
-playerCommandQueue = Queue()
+tikPlayer = TiKPlayer()
