@@ -23,4 +23,4 @@ def pop():
     except:
         return False
 
-    return Song.objects.all().count() == 1
+    return Song.objects.all().count() > 0
