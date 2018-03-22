@@ -94,10 +94,8 @@
 <div id="currentSong">
     {% if current_song %}
     <img src="{{current_song.image}}" alt="Cover" >
-    <header>
-        <h3>{{current_song.title}}</h3>
-        <h3>{{current_song.channel}}</h3>
-    </header>
+    <h3>{{current_song.title}}</h3>
+    <h3>{{current_song.channel}}</h3>
     {% else %}
     <header>
         <h3>No songs playing currently</h3>
