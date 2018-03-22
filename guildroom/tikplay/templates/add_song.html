@@ -19,12 +19,12 @@
             function(data) {
                 $("#currentSong").empty();
                 if (data.length !== 1) {
-                    $("#currentSong").append("<header><h4>No songs playing currently</h4></header>");
+                    $("#currentSong").append("<h3>No songs playing currently</h3>");
                 } else {
                     var song = data[0].fields;
     
-                    $("#currentSong").append("<header><h4>" + song.title + " by " + song.channel + "</h4></header>");
-                    $("#currentSong").append("<img src=" + song.image + " alt='Cover' width='300'>");
+                    $("#currentSong").append("<h3>" + song.title + "</h3><h3>" + song.channel + "</h3>");
+                    $("#currentSong").append("<img src=" + song.image + " alt='Cover'>");
                 }
             });
 
