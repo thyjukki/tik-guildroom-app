@@ -1,9 +1,8 @@
 from multiprocessing import Process
-from tikplay import tikPlayer
 from tikplay.models import Song
 import youtube_dl
 
-def get_audio_url(song_id, startSong):
+def get_audio_url(song_id):
     song = Song.objects.get(pk=song_id)
     url = "https://www.youtube.com/watch?v={}".format(song.video_id)
     ydl_opts = {
@@ -14,8 +13,6 @@ def get_audio_url(song_id, startSong):
         song.audio_url = info_dict.get("url", None)
         song.save()
     
-    if startSong:
-        tikPlayer.new()
 
 def pop():
     try:

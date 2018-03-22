@@ -8,7 +8,7 @@ from tikplay.forms import YoutubeForm
 from tikplay.models import Song, Log
 from tikplay.youtube import get_id_from_url, get_video
 from tikplay.decorators import jsonp
-from tikplay import tikPlayer
+from tikplay.tikplayer import tikPlayer
 from tikplay.tasks import get_audio_url, pop
 
 import json
@@ -48,8 +48,11 @@ def add_song_view(request):
 
             song.save()
             log.save()
-
-            get_audio_url(song.id, position_count == 0)
+            
+            get_audio_url(song.id)
+    
+            if position_count == 0:
+                tikPlayer.new()
 
             return HttpResponseRedirect('/')
     else:
@@ -138,8 +141,10 @@ def add_song(request):
                 position=(position_count))
     song.save()
 
-    get_audio_url(song.id, position_count == 0)
-
+    get_audio_url(song.id)
+    
+    if position_count == 0:
+        tikPlayer.new()
     output = serializers.serialize('json', [song])
     return json.dumps(json.loads(output), indent=4)
 

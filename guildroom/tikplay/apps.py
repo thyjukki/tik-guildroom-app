@@ -9,5 +9,5 @@ class tikplayConfig(AppConfig):
 
     def ready(self):
         if 'runserver' in sys.argv or WSGI:
-            from tikplay import tikPlayer
+            from tikplay.tikplayer import tikPlayer
             tikPlayer.run()

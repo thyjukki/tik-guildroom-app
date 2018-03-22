@@ -19,12 +19,12 @@
             function(data) {
                 $("#currentSong").empty();
                 if (data.length !== 1) {
-                    $("#currentSong").append("<header><h4>No songs playing currently</h4></header>");
+                    $("#currentSong").append("<h3>No songs playing currently</h3>");
                 } else {
                     var song = data[0].fields;
     
-                    $("#currentSong").append("<header><h4>" + song.title + " by " + song.channel + "</h4></header>");
-                    $("#currentSong").append("<img src=" + song.image + " alt='Cover' width='300'>");
+                    $("#currentSong").append("<img src=" + song.image + " alt='Cover'>");
+                    $("#currentSong").append("<h3>" + song.title + "</h3><h3>" + song.channel + "</h3>");
                 }
             });
 
@@ -93,34 +93,19 @@
 
 <div id="currentSong">
     {% if current_song %}
-    <header>
-        <h4>{{current_song.title}} by {{current_song.channel}}</h4>
-    </header>
-    <img src="{{current_song.image}}" alt="Cover" width="300">
+    <img src="{{current_song.image}}" alt="Cover" >
+    <h3>{{current_song.title}}</h3>
+    <h3>{{current_song.channel}}</h3>
     {% else %}
     <header>
-        <h4>No songs playing currently</h4>
+        <h3>No songs playing currently</h3>
     </header>
     {% endif %}
 </div>
 
-{% if user.is_authenticated %}
-<div class="controls">
-    <button id="playButton" class="btn btn-info btn-lg">
-        {% if playing %}
-        <span class="glyphicon glyphicon-pause"></span> Pause
-        {% else %}
-        <span class="glyphicon glyphicon-play"></span> Play
-        {% endif %}
-    </button>
-    <button id="nextButton" class="btn btn-info btn-lg">
-        <span class="glyphicon glyphicon-fast-forward"></span> Next
-    </button>
-</div>
-{% endif %}
-<div>
+<div id="playlist">
     <header>
-        <h4>Playlist</h4>
+        <h3>Playlist</h3>
     </header>
     <ul id="songList">
     {% for song in song_list %}
@@ -128,4 +113,19 @@
     {% endfor %}
     </ul>
 </div>
+
+{% if user.is_authenticated %}
+<div class="controls">
+    <button id="playButton" class="btn btn-info player-btn">
+        {% if playing %}
+        <span class="glyphicon glyphicon-pause"></span> Pause
+        {% else %}
+        <span class="glyphicon glyphicon-play"></span> Play
+        {% endif %}
+    </button>
+    <button id="nextButton" class="btn btn-info player-btn">
+        <span class="glyphicon glyphicon-fast-forward"></span> Next
+    </button>
+</div>
+{% endif %}
 {% endblock %}
