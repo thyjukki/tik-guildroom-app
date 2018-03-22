@@ -93,20 +93,21 @@
 
 <div id="currentSong">
     {% if current_song %}
+    <img src="{{current_song.image}}" alt="Cover" >
     <header>
-        <h4>{{current_song.title}} by {{current_song.channel}}</h4>
+        <h3>{{current_song.title}}</h3>
+        <h3>{{current_song.channel}}</h3>
     </header>
-    <img src="{{current_song.image}}" alt="Cover" width="300">
     {% else %}
     <header>
-        <h4>No songs playing currently</h4>
+        <h3>No songs playing currently</h3>
     </header>
     {% endif %}
 </div>
 
-<div>
+<div id="playlist">
     <header>
-        <h4>Playlist</h4>
+        <h3>Playlist</h3>
     </header>
     <ul id="songList">
     {% for song in song_list %}
