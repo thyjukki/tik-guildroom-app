@@ -5,7 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from rest_framework.decorators import api_view
 
 from tikplay.forms import YoutubeForm
-from tikplay.models import Song
+from tikplay.models import Song, Log
 from tikplay.youtube import get_id_from_url, get_video
 from tikplay.decorators import jsonp
 from tikplay.tikplayer import tikPlayer
@@ -42,9 +42,13 @@ def add_song_view(request):
                         channel=video.channel,
                         image=video.image,
                         position=(position_count))
-            song.save()
-            
 
+            log = Log(video_id=video.id,
+                      added_by="")
+
+            song.save()
+            log.save()
+            
             get_audio_url(song.id)
     
             if position_count == 0:
@@ -60,6 +64,12 @@ def add_song_view(request):
     except:
         current_song = None
     return render(request, 'add_song.html', {'form': form, 'song_list': song_list, 'current_song': current_song, 'playing': tikPlayer.is_playing()})
+
+@api_view(['GET'])
+@jsonp
+def get_history(request):
+    output = serializers.serialize('json', Log.objects.all())
+    return json.dumps(json.loads(output), indent=4)
 
 @api_view(['GET'])
 @jsonp
