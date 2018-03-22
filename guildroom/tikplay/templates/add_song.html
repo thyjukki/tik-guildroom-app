@@ -23,8 +23,8 @@
                 } else {
                     var song = data[0].fields;
     
-                    $("#currentSong").append("<h3>" + song.title + "</h3><h3>" + song.channel + "</h3>");
                     $("#currentSong").append("<img src=" + song.image + " alt='Cover'>");
+                    $("#currentSong").append("<h3>" + song.title + "</h3><h3>" + song.channel + "</h3>");
                 }
             });
 
