@@ -104,20 +104,6 @@
     {% endif %}
 </div>
 
-{% if user.is_authenticated %}
-<div class="controls">
-    <button id="playButton" class="btn btn-info btn-lg">
-        {% if playing %}
-        <span class="glyphicon glyphicon-pause"></span> Pause
-        {% else %}
-        <span class="glyphicon glyphicon-play"></span> Play
-        {% endif %}
-    </button>
-    <button id="nextButton" class="btn btn-info btn-lg">
-        <span class="glyphicon glyphicon-fast-forward"></span> Next
-    </button>
-</div>
-{% endif %}
 <div>
     <header>
         <h4>Playlist</h4>
@@ -128,4 +114,19 @@
     {% endfor %}
     </ul>
 </div>
+
+{% if user.is_authenticated %}
+<div class="controls">
+    <button id="playButton" class="btn btn-info player-btn">
+        {% if playing %}
+        <span class="glyphicon glyphicon-pause"></span> Pause
+        {% else %}
+        <span class="glyphicon glyphicon-play"></span> Play
+        {% endif %}
+    </button>
+    <button id="nextButton" class="btn btn-info player-btn">
+        <span class="glyphicon glyphicon-fast-forward"></span> Next
+    </button>
+</div>
+{% endif %}
 {% endblock %}
