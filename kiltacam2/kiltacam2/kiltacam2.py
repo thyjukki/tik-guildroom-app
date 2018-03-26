@@ -2,6 +2,7 @@ import cv2
 import math
 import os
 from time import sleep, time
+import requests
 
 
 imagesFolder = os.path.dirname(os.path.realpath(__file__)) + "\\other\\images"
@@ -42,13 +43,16 @@ while True:
         ret, frame = cam.read()
         if (ret == True):
 
-            filename = imagesFolder + "\\current_{}.png".format(camera)
+            filename = imagesFolder + "\\cudrrent_{}.png".format(camera)
         
             try:
                 os.remove(filename)
             except OSError:
                 pass
             wrote = cv2.imwrite(filename, frame)
+            url = 'http://localhost:8000/cam/api/set'
+            files = {'current': open(filename, 'rb')}
+            requests.post(url, {'position': 1}, files=files)
             
         camera = camera + 1
         if cameracount <= camera:

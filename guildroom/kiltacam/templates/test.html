@@ -1,0 +1,17 @@
+<html>
+<head>
+    <title>Tik Cam</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+
+<body>
+    TEST
+<form  enctype="multipart/form-data" action="{% url 'api-set-cam' %}" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Submit" />
+</form>
+
+</body>
+</html>
