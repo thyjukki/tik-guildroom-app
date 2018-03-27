@@ -16,5 +16,5 @@ urlpatterns = [
     url(r'^api/is_paused/$', views.is_playing, name='api-is_playing'),
     url(r'^api/pause/$', views.pause, name='api-pause'),
 
-    url(r'^api/log/$', views.get_history, name='api-queue'),
+    url(r'^api/log/$', views.get_history, name='api-log'),
 ]
