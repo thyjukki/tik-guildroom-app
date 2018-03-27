@@ -9,9 +9,6 @@ import django.contrib.auth.views
 from django.conf import settings
 from django.contrib import admin
 
-from tikplay import urls
-import youtube_dl
-
 # Uncomment the next lines to enable the admin:
 # from django.conf.urls import include
 # from django.contrib import admin

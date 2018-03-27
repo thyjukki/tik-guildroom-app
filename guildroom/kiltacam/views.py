@@ -11,7 +11,6 @@ from rest_framework.decorators import api_view
 
 from kiltacam.decorators import jsonp
 from kiltacam.models import Camera
-from kiltacam.forms import SetImageForm
 
 import json
 # Create your views here.
@@ -49,23 +48,12 @@ def api_set_camera(request):
     if request.method == 'POST':
         photo_file = request.FILES['current']
         p = request.POST['position']
-        camera = get_object_or_404(Camera, pk=p)
-
-        photo_file.seek(0)
-        path = default_storage.save(photo_file.name, ContentFile(photo_file.read()))
+        camera = get_object_or_404(Camera, position=p)
         camera.current.save(photo_file.name, photo_file)
-        return HttpResponse("ok2")
-
-
-def test_view(request):
-
-    if request.method == 'POST':
-        form = SetImageForm(request.POST, request.FILES)
-
-        if form.is_valid():
-            test = form.save()
-            test.save()
-    else:
-        form = SetImageForm()
-         
-    return render(request, 'test.html', {'form': form})
+        return HttpResponse("ok")
+    
+def api_get_camera(request):
+    i = request.GET['id']
+    camera = get_object_or_404(Camera, pk=i)
+    image_data = camera.current.read()
+    return HttpResponse(image_data, content_type="image/png")

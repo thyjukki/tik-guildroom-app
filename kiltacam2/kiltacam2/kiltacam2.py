@@ -1,62 +1,18 @@
-import cv2
-import math
-import os
-from time import sleep, time
+from cv2 import *
 import requests
+import sys, os, time
+sys.path.append('lib')
 
+cam = VideoCapture(0)
+cam.set(3,1280)
+cam.set(4,800)
 
-imagesFolder = os.path.dirname(os.path.realpath(__file__)) + "\\other\\images"
-cap = cv2.VideoCapture(0)
-value = cap.read()
+while(True):
+    s, img = cam.read()
+    if s:    # frame captured without any errors
+        imwrite("last.jpg",img)
 
-def listCameras():
-    count = 0
-    while True:
-        try:
-            cap = cv2.VideoCapture(count)
-            value = cap.isOpened()
-
-            if not value:
-                return count
-            count = count + 1
-        except:
-            return count
-
-cameracount = listCameras()
-if not os.path.exists(imagesFolder):
-    os.makedirs(imagesFolder)
-
-delay = 30
-lapse = delay / cameracount
-camera = 0
-lasttime = 0
-
-cameras = []
-for x in range(0, cameracount):
-    cameras.append(cv2.VideoCapture(x))
-
-while True:
-
-    elapsed = time() - lasttime
-    if elapsed >= lapse:
-        cam = cameras[camera]
-        ret, frame = cam.read()
-        if (ret == True):
-
-            filename = imagesFolder + "\\cudrrent_{}.png".format(camera)
-        
-            try:
-                os.remove(filename)
-            except OSError:
-                pass
-            wrote = cv2.imwrite(filename, frame)
-            url = 'http://localhost:8000/cam/api/set'
-            files = {'current': open(filename, 'rb')}
-            requests.post(url, {'position': 1}, files=files)
-            
-        camera = camera + 1
-        if cameracount <= camera:
-            camera = 0
-        lasttime = time()
-        
-print ("Done!")
+        baseUrl = 'http://localhost:8000/cam/api/set'
+        files = {"current": open('last.jpg', 'rb')}
+        res = requests.post(baseUrl, {"position": 0}, files=files)
+    time.sleep(5)
