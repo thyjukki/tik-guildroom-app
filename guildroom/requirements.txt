@@ -20,3 +20,4 @@ urllib3==1.22
 vine==1.1.4
 wheel==0.30.0
 youtube-dl==2018.3.10
+django-cleanup==2.1.0
