@@ -15,6 +15,7 @@ urlpatterns = [
     url(r'^api/toggleplay/$', views.toggleplay, name='api-toggleplay'),
     url(r'^api/is_paused/$', views.is_playing, name='api-is_playing'),
     url(r'^api/pause/$', views.pause, name='api-pause'),
+    url(r'^api/clear/$', views.clear, name='api-clear'),
 
     url(r'^api/log/$', views.get_history, name='api-log'),
 ]
