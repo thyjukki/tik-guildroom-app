@@ -23,11 +23,12 @@ def api_add_camera(request):
             i = request.GET['ip']
             p = request.GET['position']
             n = request.GET['name']
+            a = request.GET['token']
         except MultiValueDictKeyError:
             return json.dumps({'error': 'Missing parameters'}, indent=4)
 
 
-        camera = Camera(ip=i, position=p, name=n)
+        camera = Camera(ip=i, position=p, name=n, token=a)
 
         camera.save()
         output = serializers.serialize('json', [camera])
@@ -47,8 +48,10 @@ def api_get_cameras(request):
 def api_set_camera(request):
     if request.method == 'POST':
         photo_file = request.FILES['current']
+        client_ip = request.META['REMOTE_ADDR']
         p = request.POST['position']
-        camera = get_object_or_404(Camera, position=p)
+        a = request.POST['token']
+        camera = Camera.objects.get(position=p, ip=client_ip, token=a)
         camera.current.save(photo_file.name, photo_file)
         return HttpResponse("ok")
     
