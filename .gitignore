@@ -222,6 +222,8 @@ UpgradeLog*.htm
 # Microsoft Fakes
 FakesAssemblies/
 
+guildroom/media/
+
 # GhostDoc plugin setting file
 *.GhostDoc.xml
 
