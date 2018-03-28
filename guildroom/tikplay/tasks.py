@@ -6,7 +6,7 @@ def get_audio_url(song_id):
     song = Song.objects.get(pk=song_id)
     url = "https://www.youtube.com/watch?v={}".format(song.video_id)
     output = subprocess.run(['youtube-dl', '--extract-audio', '--audio-quality','0', '-g' , url], stdout=subprocess.PIPE)
-    song.audio_url = output.stdout
+    song.audio_url = output.stdout.rstrip()
     song.save()
     
 
