@@ -222,6 +222,8 @@ UpgradeLog*.htm
 # Microsoft Fakes
 FakesAssemblies/
 
+guildroom/media/
+
 # GhostDoc plugin setting file
 *.GhostDoc.xml
 
@@ -280,3 +282,5 @@ guildroom/static/
 # Virtual enviroment
 venv/
 guildroom/db\.sqlite3
+
+kiltacam2/kiltacam2/last\.jpg

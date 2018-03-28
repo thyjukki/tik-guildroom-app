@@ -32,6 +32,20 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="kiltacam\admin.py" />
+    <Compile Include="kiltacam\apps.py" />
+    <Compile Include="kiltacam\decorators.py" />
+    <Compile Include="kiltacam\migrations\__init__.py" />
+    <Compile Include="kiltacam\models.py" />
+    <Compile Include="kiltacam\serializers.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="kiltacam\tests.py" />
+    <Compile Include="kiltacam\urls.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="kiltacam\views.py" />
+    <Compile Include="kiltacam\__init__.py" />
     <Compile Include="manage.py" />
     <Compile Include="guildroom\__init__.py" />
     <Compile Include="guildroom\settings.py" />
@@ -65,11 +79,15 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="guildroom\" />
+    <Folder Include="kiltacam\" />
+    <Folder Include="kiltacam\migrations\" />
+    <Folder Include="kiltacam\templates\" />
     <Folder Include="tikplay\" />
     <Folder Include="tikplay\migrations\" />
     <Folder Include="tikplay\templates\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="kiltacam\templates\test.html" />
     <Content Include="requirements.txt" />
     <Content Include="db.sqlite3" />
     <Content Include="tikplay\templates\base_generic.html" />

@@ -1,7 +1,6 @@
 
 import json
 import vlc
-import youtube_dl
 from tikplay.tasks import pop
 from tikplay.models import Song
 import threading

@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2020
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "kiltacam2", "kiltacam2\kiltacam2.pyproj", "{A11B15C0-841F-40F1-A94B-A7CD7048CC2A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A11B15C0-841F-40F1-A94B-A7CD7048CC2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A11B15C0-841F-40F1-A94B-A7CD7048CC2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E01B288B-2D2F-4BCA-8C09-04E0F0951D22}
+	EndGlobalSection
+EndGlobal

@@ -26,6 +26,9 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '032e4859-f6de-43b2-91e1-c48c5b
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
 
+MEDIA_ROOT = os.environ.get('DJANGO_MEDIA_ROOT', os.path.join(BASE_DIR, 'media'))
+MEDIA_URL = '/media/'
+STATIC_ROOT = os.environ.get('DJANGO_STATIC_ROOT', os.path.join(BASE_DIR, 'staticfiles'))
 ALLOWED_HOSTS = ['*']
 
 
@@ -33,6 +36,8 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'tikplay',
+    'kiltacam',
+    'django_cleanup',
     # Add your apps here to enable them
     'django.contrib.admin',
     'django.contrib.auth',

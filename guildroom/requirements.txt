@@ -9,6 +9,7 @@ gunicorn==19.7.1
 idna==2.6
 kombu==4.1.0
 pafy==0.5.4
+Pillow==5.0.0
 pip==9.0.1
 python-vlc==3.0.102
 pytz==2018.3

@@ -1,17 +1,13 @@
 from multiprocessing import Process
 from tikplay.models import Song
-import youtube_dl
+import subprocess
 
 def get_audio_url(song_id):
     song = Song.objects.get(pk=song_id)
     url = "https://www.youtube.com/watch?v={}".format(song.video_id)
-    ydl_opts = {
-        'format': 'bestaudio',
-    }
-    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-        info_dict = ydl.extract_info(url, download=False)
-        song.audio_url = info_dict.get("url", None)
-        song.save()
+    output = subprocess.run(['youtube-dl', '--extract-audio', '--audio-quality','0', '-g' , url], stdout=subprocess.PIPE)
+    song.audio_url = output.stdout
+    song.save()
     
 
 def pop():
