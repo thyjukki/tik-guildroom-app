@@ -107,6 +107,7 @@ def pop_current(request):
 @jsonp
 def clear(request):
     Song.objects.all().delete()
+    tikPlayer.clear()
     return json.dumps(json.loads("[]"), indent=4)
 
 class FiveTimesAnonPerMinute(AnonRateThrottle):
