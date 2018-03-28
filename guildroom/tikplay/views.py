@@ -2,7 +2,8 @@ from django.shortcuts import render
 from django.core import serializers
 from django.http import HttpResponse, HttpResponseRedirect
 
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, throttle_classes
+from rest_framework.throttling import AnonRateThrottle
 
 from tikplay.forms import YoutubeForm
 from tikplay.models import Song, Log
@@ -103,6 +104,16 @@ def pop_current(request):
 
 
 @api_view(['GET'])
+@jsonp
+def clear(request):
+    Song.objects.all().delete()
+    return json.dumps(json.loads("[]"), indent=4)
+
+class FiveTimesAnonPerMinute(AnonRateThrottle):
+        rate = '5/minute'
+
+@api_view(['GET'])
+@throttle_classes([FiveTimesAnonPerMinute])
 @jsonp
 def add_song(request):
     url = request.GET.get('url')
