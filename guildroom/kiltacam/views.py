@@ -18,6 +18,8 @@ import json
 @api_view(['GET'])
 @jsonp
 def api_add_camera(request):
+    if not request.user.is_authenticated:
+        return json.dumps({'error': 'Not allowed to acces'}, indent=4)
     if request.method == 'GET':
         try:
             i = request.GET['ip']
@@ -46,6 +48,8 @@ def api_get_cameras(request):
 
 @api_view(['POST'])
 def api_set_camera(request):
+    if not request.user.is_authenticated:
+        return json.dumps({'error': 'Not allowed to acces'}, indent=4)
     if request.method == 'POST':
         photo_file = request.FILES['current']
         client_ip = request.META['REMOTE_ADDR']

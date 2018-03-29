@@ -1,7 +1,9 @@
 from cv2 import VideoCapture, imwrite
 import requests
 import sys, os, time
-sys.path.append('lib')
+
+token = os.environ.get('KILTACAM_TOKEN', 'empty')
+host = os.environ.get('KILTACAM_HOST', '127.0.0.1')
 
 def listCameras():
     cams = []
@@ -27,9 +29,9 @@ while(True):
             if s:# frame captured without any errors
                 imwrite("last.jpg",img)
 
-                baseUrl = 'http://localhost:8000/cam/api/set'
+                baseUrl = 'http://{}/cam/api/set'.format(host)
                 files = {"current": open('last.jpg', 'rb')}
-                res = requests.post(baseUrl, {"position": index, "token": "empty"}, files=files)
+                res = requests.post(baseUrl, {"position": index, "token": token}, files=files)
         except e:
             print("Camera by index {}: {}".format(index, e))
     time.sleep(5)
