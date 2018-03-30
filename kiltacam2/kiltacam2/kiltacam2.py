@@ -32,6 +32,6 @@ while(True):
                 baseUrl = 'http://{}/cam/api/set'.format(host)
                 files = {"current": open('last.jpg', 'rb')}
                 res = requests.post(baseUrl, {"position": index, "token": token}, files=files)
-        except e:
+        except Exception as e:
             print("Camera by index {}: {}".format(index, e))
     time.sleep(5)
