@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from tikplay.models import Song
+from kiltacam.models import Camera
 # Register your models here.
 
-admin.site.register(Song)
+admin.site.register(Camera)

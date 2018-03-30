@@ -21,18 +21,23 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '032e4859-f6de-43b2-91e1-c48c5ba158d9'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '032e4859-f6de-43b2-91e1-c48c5ba158d9')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
 
-ALLOWED_HOSTS = []
+MEDIA_ROOT = os.environ.get('DJANGO_MEDIA_ROOT', os.path.join(BASE_DIR, 'media'))
+MEDIA_URL = '/media/'
+STATIC_ROOT = os.environ.get('DJANGO_STATIC_ROOT', os.path.join(BASE_DIR, 'staticfiles'))
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
 
 INSTALLED_APPS = [
     'tikplay',
+    'kiltacam',
+    'django_cleanup',
     # Add your apps here to enable them
     'django.contrib.admin',
     'django.contrib.auth',
@@ -51,9 +56,13 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'guildroom.urls'
+
+CORS_ORIGIN_ALLOW_ALL=True
 
 TEMPLATES = [
     {
@@ -83,6 +92,8 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+
 
 
 # Password validation
@@ -124,3 +135,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATIC_ROOT = posixpath.join(*(BASE_DIR.split(os.path.sep) + ['static']))
+
+YOUTUBE_API_KEY = 'AIzaSyDy9eptlzWnZIM-QSXbjk49zmXHmQiR_1k'

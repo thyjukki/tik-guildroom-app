@@ -1,0 +1,131 @@
+﻿{% extends "base_generic.html" %}
+{% load static %}
+
+{% block javascript %}
+
+{% if user.is_authenticated %}
+<script>
+    function refreshView() {
+
+        $.getJSON("{% url 'api-queue' %}", function( data ) {
+            $("#songList").empty();
+            $.each( data, function( i ) {
+                var song = data[i].fields;
+                $("#songList").append( "<li>" + song.title + "</li>" );
+            });
+        });
+
+        $.getJSON("{% url 'api-current' %}",
+            function(data) {
+                $("#currentSong").empty();
+                if (data.length !== 1) {
+                    $("#currentSong").append("<h3>No songs playing currently</h3>");
+                } else {
+                    var song = data[0].fields;
+    
+                    $("#currentSong").append("<img src=" + song.image + " alt='Cover'>");
+                    $("#currentSong").append("<h3>" + song.title + "</h3><h3>" + song.channel + "</h3>");
+                }
+            });
+
+        $.getJSON("{% url 'api-is_playing' %}",
+            function(data) {
+                $("#playButton").empty();
+                if (data["message"] === "PLAYING") {
+                    $("#playButton").append('<span class="glyphicon glyphicon-pause"></span> Pause');
+                } else {
+                    $("#playButton").append('<span class="glyphicon glyphicon-play"></span> Play');
+                }
+            });
+    }
+
+    $("#playButton").click(function () {
+        $.get("{% url 'api-toggleplay' %}");
+        refreshView();
+    });
+
+    $("#nextButton").click(function () {
+
+        $.get("{% url 'api-pop' %}");
+        refreshView();
+    });
+
+    $('#post-form').on('submit', function(event){
+        event.preventDefault();
+
+        $.ajax({
+            async: false,
+            type: 'GET',
+            url: "{% url 'api-add' %}?url=" + $('#{{ form.youtube_url.id_for_label }}').val(),
+            success: function(data) {
+                refreshView();
+            }
+        });
+    });
+
+    var interval = setInterval(refreshView, 5000);
+</script>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div>
+    <header>
+        <h1>TiK Play 2.0 (beta)</h1>
+        {% if user.is_authenticated %}
+        <h3>Add songs to queue by visiting tietokilta.fi/play on your device</h3>
+        {% endif %}
+    </header>
+</div>
+{% if not user.is_authenticated %}
+<div>
+    <form method="post" id="post-form">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        {{ form.youtube_url.errors }}
+        <label for="{{ form.youtube_url.id_for_label }}">Youtube link:
+        </label>
+        {{ form.youtube_url }}
+        <input type="submit" value="Submit" />
+    </form>
+</div>
+{% endif %}
+
+<div id="currentSong">
+    {% if current_song %}
+    <img src="{{current_song.image}}" alt="Cover" >
+    <h3>{{current_song.title}}</h3>
+    <h3>{{current_song.channel}}</h3>
+    {% else %}
+    <header>
+        <h3>No songs playing currently</h3>
+    </header>
+    {% endif %}
+</div>
+
+<div id="playlist">
+    <header>
+        <h3>Playlist</h3>
+    </header>
+    <ul id="songList">
+    {% for song in song_list %}
+        <li>{{ song.title }}</li>
+    {% endfor %}
+    </ul>
+</div>
+
+{% if user.is_authenticated %}
+<div class="controls">
+    <button id="playButton" class="btn btn-info player-btn">
+        {% if playing %}
+        <span class="glyphicon glyphicon-pause"></span> Pause
+        {% else %}
+        <span class="glyphicon glyphicon-play"></span> Play
+        {% endif %}
+    </button>
+    <button id="nextButton" class="btn btn-info player-btn">
+        <span class="glyphicon glyphicon-fast-forward"></span> Next
+    </button>
+</div>
+{% endif %}
+{% endblock %}
