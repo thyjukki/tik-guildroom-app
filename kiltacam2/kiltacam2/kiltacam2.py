@@ -5,6 +5,7 @@ import sys, os, time
 token = os.environ.get('KILTACAM_TOKEN', 'empty')
 host = os.environ.get('KILTACAM_HOST', '127.0.0.1')
 
+print ("Starting camera client for {} host, password {}".format(host, token))
 def listCameras():
     cams = []
     while True: 
@@ -22,6 +23,8 @@ def listCameras():
 
 cameras = listCameras()
 
+print("Found {} camera(s)".format(len(cameras)))
+
 while(True):
     for index, cam in enumerate(cameras):
         try:
@@ -32,6 +35,7 @@ while(True):
                 baseUrl = 'http://{}/cam/api/set'.format(host)
                 files = {"current": open('last.jpg', 'rb')}
                 res = requests.post(baseUrl, {"position": index, "token": token}, files=files)
+                print("Sent picture")
         except Exception as e:
             print("Camera by index {}: {}".format(index, e))
     time.sleep(5)
