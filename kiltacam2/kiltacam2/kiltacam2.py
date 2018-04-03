@@ -33,7 +33,7 @@ def insertTimestamp(img):
 
     retval, baseLine = cv2.getTextSize(str, font, fontScale, thickness)
     textWidth, textHeight = retval
-    img = cv2.copyMakeBorder(
+    newimg = cv2.copyMakeBorder(
                      img, 
                      0, 
                      textHeight + 4, 
@@ -42,9 +42,9 @@ def insertTimestamp(img):
                      cv2.BORDER_CONSTANT, 
                      value=(0, 0, 0)
                   )
-    height, width, channels = img.shape 
-    cv2.putText(img, str, (width - textWidth-2, height - textHeight + 8), font, fontScale, (255, 255, 255), thickness, cv2.LINE_AA)
-    return img
+    height, width, channels = newimg.shape 
+    cv2.putText(newimg, str, (width - textWidth-2, height - textHeight + 8), font, fontScale, (255, 255, 255), thickness, cv2.LINE_AA)
+    return newimg
 
 
 
