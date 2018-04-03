@@ -48,7 +48,7 @@ def listCameras():
             cam = webcamImageGetter(len(cams))
             value = cam.isOpened() 
  
-            if not value: 
+            if not value.any(): 
                 return cams
 
             cam.start()
