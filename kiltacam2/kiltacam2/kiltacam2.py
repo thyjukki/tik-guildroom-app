@@ -23,11 +23,11 @@ def listCameras():
         except: 
             return cams 
 
-cameras = listCameras()
 
 print("Found {} camera(s)".format(len(cameras)))
 
 while(True):
+    cameras = listCameras()
     for index, cam in enumerate(cameras):
         try:
             s, img = cam.read()
@@ -39,4 +39,5 @@ while(True):
                 res = requests.post(baseUrl, {"position": index, "token": token}, files=files)
         except Exception as e:
             print("Camera by index {}: {}".format(index, e))
+        cam.release()
     time.sleep(30)
