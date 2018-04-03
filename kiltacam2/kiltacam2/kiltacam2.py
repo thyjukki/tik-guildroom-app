@@ -15,8 +15,8 @@ class webcamImageGetter:
 
         self.capture = cv2.VideoCapture(self.CAMERA_NUM) #Put in correct capture number here
         #OpenCV by default gets a half resolution image so we manually set the correct resolution
-        self.capture.set(cv2.cv.CV_CAP_PROP_FRAME_WIDTH,self.CAMERA_WIDTH)
-        self.capture.set(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT,self.CAMERA_HEIGHT)
+        self.capture.set(3,self.CAMERA_WIDTH)
+        self.capture.set(4,self.CAMERA_HEIGHT)
 
     #Starts updating the images in a thread
     def start(self):
@@ -34,6 +34,7 @@ class webcamImageGetter:
         return self.currentFrame
 
     def isOpened(self):
+        print ("Camera {} is {}".format(self.CAMERA_num, self.capture.isOpened()))
         return self.capture.isOpened()
 
 token = os.environ.get('KILTACAM_TOKEN', 'empty')
