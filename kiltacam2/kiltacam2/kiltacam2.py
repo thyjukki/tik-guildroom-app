@@ -11,9 +11,9 @@ class webcamImageGetter:
         self.currentFrame = None
         self.CAMERA_WIDTH = 1280
         self.CAMERA_HEIGHT = 800
-        self.CAMERA_NUM = 0
+        self.CAMERA_NUM = id
 
-        self.capture = cv2.VideoCapture(0) #Put in correct capture number here
+        self.capture = cv2.VideoCapture(self.CAMERA_NUM) #Put in correct capture number here
         #OpenCV by default gets a half resolution image so we manually set the correct resolution
         self.capture.set(cv2.cv.CV_CAP_PROP_FRAME_WIDTH,self.CAMERA_WIDTH)
         self.capture.set(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT,self.CAMERA_HEIGHT)
@@ -33,7 +33,7 @@ class webcamImageGetter:
     def getFrame(self):
         return self.currentFrame
 
-    def isOpened():
+    def isOpened(self):
         return self.capture.isOpened()
 
 token = os.environ.get('KILTACAM_TOKEN', 'empty')
