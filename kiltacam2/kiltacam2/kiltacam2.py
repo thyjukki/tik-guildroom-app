@@ -92,15 +92,14 @@ while(True):
         try:
             img = cam.getFrame()
 
-            if s:# frame captured without any errors
-                if (index in flip_cams):
-                    img = cv2.flip( img, -1 )
-                img = insertTimestamp(img)
-                cv2.imwrite("last.jpg",img)
+            if (index in flip_cams):
+                img = cv2.flip( img, -1 )
+            img = insertTimestamp(img)
+            cv2.imwrite("last.jpg",img)
 
-                baseUrl = 'http://{}/cam/api/set'.format(host)
-                files = {"current": open('last.jpg', 'rb')}
-                res = requests.post(baseUrl, {"position": index, "token": token}, files=files)
+            baseUrl = 'http://{}/cam/api/set'.format(host)
+            files = {"current": open('last.jpg', 'rb')}
+            res = requests.post(baseUrl, {"position": index, "token": token}, files=files)
         except Exception as e:
             print("Camera by index {}: {}".format(index, e))
     time.sleep(30)
