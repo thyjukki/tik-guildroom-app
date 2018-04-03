@@ -53,7 +53,7 @@ while(True):
     print("Found {} camera(s)".format(len(cameras)))
     for index, cam in enumerate(cameras):
         try:
-            sleep (2)
+            time.sleep (2)
             s, img = cam.read()
             if s:# frame captured without any errors
                 if (index in flip_cams):
