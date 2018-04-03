@@ -50,7 +50,7 @@ while(True):
                 cv2.imwrite("last.jpg",img)
 
                 baseUrl = 'http://{}/cam/api/set'.format(host)
-                files = {"current": cv2.open('last.jpg', 'rb')}
+                files = {"current": open('last.jpg', 'rb')}
                 res = requests.post(baseUrl, {"position": index, "token": token}, files=files)
         except Exception as e:
             print("Camera by index {}: {}".format(index, e))
