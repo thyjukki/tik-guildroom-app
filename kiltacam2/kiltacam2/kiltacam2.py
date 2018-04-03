@@ -44,6 +44,7 @@ def insertTimestamp(img):
                   )
     height, width, channels = img.shape 
     cv2.putText(img, str, (width - textWidth-2, height - textHeight + 8), font, fontScale, (255, 255, 255), thickness, cv2.LINE_AA)
+    return img
 
 
 
@@ -56,7 +57,7 @@ while(True):
             if s:# frame captured without any errors
                 if (index in flip_cams):
                     img = cv2.flip( img, -1 )
-                insertTimestamp(img)
+                img = insertTimestamp(img)
                 cv2.imwrite("last.jpg",img)
 
                 baseUrl = 'http://{}/cam/api/set'.format(host)
