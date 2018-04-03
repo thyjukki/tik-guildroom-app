@@ -26,7 +26,6 @@ def listCameras():
             return cams 
 
 def insertTimestamp(img):
-    height, width, channels = img.shape 
     font = cv2.FONT_HERSHEY_SIMPLEX
     str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     fontScale = 0.5
@@ -34,7 +33,17 @@ def insertTimestamp(img):
 
     retval, baseLine = cv2.getTextSize(str, font, fontScale, thickness)
     textWidth, textHeight = retval
-    cv2.putText(img, str, (width - textWidth , height - textHeight), font, fontScale, (255, 255, 255), thickness, cv2.LINE_AA)
+    img = cv2.copyMakeBorder(
+                     img, 
+                     0, 
+                     textHeight + 4, 
+                     0, 
+                     0, 
+                     cv2.BORDER_CONSTANT, 
+                     value=(0, 0, 0)
+                  )
+    height, width, channels = img.shape 
+    cv2.putText(img, str, (width - textWidth-2, height - textHeight + 8), font, fontScale, (255, 255, 255), thickness, cv2.LINE_AA)
 
 
 
