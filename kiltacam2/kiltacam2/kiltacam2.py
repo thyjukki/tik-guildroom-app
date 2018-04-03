@@ -47,6 +47,7 @@ while(True):
             if s:# frame captured without any errors
                 if (index in flip_cams):
                     img = cv2.flip( img, -1 )
+                insertTimestamp(img)
                 cv2.imwrite("last.jpg",img)
 
                 baseUrl = 'http://{}/cam/api/set'.format(host)
