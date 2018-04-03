@@ -26,7 +26,7 @@ class webcamImageGetter:
         while True:
             ret, self.currentFrame = self.capture.read()
 
-            while not self.currentFrame: #Continually grab frames until we get a good one
+            while not self.currentFrame.any(): #Continually grab frames until we get a good one
                 ret, frame = self.capture.read()
 
     def getFrame(self):
@@ -48,7 +48,7 @@ def listCameras():
             cam = webcamImageGetter(len(cams))
             value = cam.isOpened() 
  
-            if not value.any(): 
+            if not value: 
                 return cams
 
             cam.start()
