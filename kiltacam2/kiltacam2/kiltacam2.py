@@ -1,7 +1,8 @@
-from cv2 import VideoCapture, imwrite, flip
+import cv2
 import requests
 import sys, os, time
 import json
+import datetime
 
 token = os.environ.get('KILTACAM_TOKEN', 'empty')
 host = os.environ.get('KILTACAM_HOST', '127.0.0.1')
@@ -12,7 +13,7 @@ def listCameras():
     cams = []
     while True: 
         try: 
-            cam = VideoCapture(len(cams)) 
+            cam = cv2.VideoCapture(len(cams)) 
             value = cam.isOpened() 
  
             if not value: 
@@ -24,6 +25,17 @@ def listCameras():
         except: 
             return cams 
 
+def insertTimestamp(img):
+    height, width, channels = img.shape 
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    fontScale = 0.5
+    thickness = 1
+
+    retval, baseLine = cv2.getTextSize(str, font, fontScale, thickness)
+    textWidth, textHeight = retval
+    cv2.putText(img, str, (width - textWidth , height - textHeight), font, fontScale, (255, 255, 255), thickness, cv2.LINE_AA)
+
 
 
 while(True):
@@ -34,11 +46,11 @@ while(True):
             s, img = cam.read()
             if s:# frame captured without any errors
                 if (index in flip_cams):
-                    img = flip( img, -1 )
-                imwrite("last.jpg",img)
+                    img = cv2.flip( img, -1 )
+                cv2.imwrite("last.jpg",img)
 
                 baseUrl = 'http://{}/cam/api/set'.format(host)
-                files = {"current": open('last.jpg', 'rb')}
+                files = {"current": cv2.open('last.jpg', 'rb')}
                 res = requests.post(baseUrl, {"position": index, "token": token}, files=files)
         except Exception as e:
             print("Camera by index {}: {}".format(index, e))
