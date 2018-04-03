@@ -33,7 +33,6 @@ class webcamImageGetter:
         return self.currentFrame
 
     def isOpened(self):
-        print ("Camera {} is {}".format(self.CAMERA_NUM, self.capture.isOpened()))
         return self.capture.isOpened()
 
 token = os.environ.get('KILTACAM_TOKEN', 'empty')
