@@ -1,8 +1,40 @@
 import cv2
+from threading import Thread
 import requests
 import sys, os, time
 import json
 import datetime
+
+class webcamImageGetter:
+
+    def __init__(self, id):
+        self.currentFrame = None
+        self.CAMERA_WIDTH = 1280
+        self.CAMERA_HEIGHT = 800
+        self.CAMERA_NUM = 0
+
+        self.capture = cv2.VideoCapture(0) #Put in correct capture number here
+        #OpenCV by default gets a half resolution image so we manually set the correct resolution
+        self.capture.set(cv2.cv.CV_CAP_PROP_FRAME_WIDTH,self.CAMERA_WIDTH)
+        self.capture.set(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT,self.CAMERA_HEIGHT)
+
+    #Starts updating the images in a thread
+    def start(self):
+        Thread(target=self.updateFrame, args=()).start()
+
+    #Continually updates the frame
+    def updateFrame(self):
+        while(True):
+            ret, self.currentFrame = self.capture.read()
+
+            while (self.currentFrame == None): #Continually grab frames until we get a good one
+                ret, frame = self.capture.read()
+
+    def getFrame(self):
+        return self.currentFrame
+
+    def isOpened():
+        return self.capture.isOpened()
 
 token = os.environ.get('KILTACAM_TOKEN', 'empty')
 host = os.environ.get('KILTACAM_HOST', '127.0.0.1')
@@ -13,14 +45,13 @@ def listCameras():
     cams = []
     while True: 
         try: 
-            cam = cv2.VideoCapture(len(cams)) 
+            cam = webcamImageGetter(len(cams))
             value = cam.isOpened() 
  
             if not value: 
                 return cams
 
-            cam.set(3,1280)
-            cam.set(4,800)
+            cam.start()
             cams.append(cam)
         except: 
             return cams 
@@ -46,18 +77,23 @@ def insertTimestamp(img):
     cv2.putText(newimg, str, (width - textWidth-2, height - textHeight + 8), font, fontScale, (255, 255, 255), thickness, cv2.LINE_AA)
     return newimg
 
+cameras = []
 
+while not cameras:
+    cameras = listCameras()
+    if not cameras:
+        print("NO CAMERAS FOUND, checking again in 10 seconds!")
+        time.sleep (10)
+    else:
+        print("Found {} camera(s)".format(len(cameras)))
 
 while(True):
-    cameras = listCameras()
-    print("Found {} camera(s)".format(len(cameras)))
     for index, cam in enumerate(cameras):
         try:
-            s, img = cam.read()
-            time.sleep (0.2)
-            s, img = cam.read()
-            time.sleep (0.2)
-            s, img = cam.read()
+            img = cam.getFrame()
+            if img == None:
+                continue
+
             if s:# frame captured without any errors
                 if (index in flip_cams):
                     img = cv2.flip( img, -1 )
@@ -69,5 +105,4 @@ while(True):
                 res = requests.post(baseUrl, {"position": index, "token": token}, files=files)
         except Exception as e:
             print("Camera by index {}: {}".format(index, e))
-        cam.release()
-    time.sleep(28)
+    time.sleep(30)
