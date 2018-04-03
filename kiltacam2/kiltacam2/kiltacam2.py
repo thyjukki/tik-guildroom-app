@@ -1,4 +1,4 @@
-from cv2 import VideoCapture, imwrite
+from cv2 import VideoCapture, imwrite,CAP_PROP_BUFFERSIZE
 import requests
 import sys, os, time
 
@@ -15,6 +15,8 @@ def listCameras():
  
             if not value: 
                 return cams
+
+            cam.set(CAP_PROP_BUFFERSIZE, 1)
             cam.set(3,1280)
             cam.set(4,800)
             cams.append(cam)
