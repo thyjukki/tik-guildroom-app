@@ -34,7 +34,6 @@ while(True):
             s, img = cam.read()
             if s:# frame captured without any errors
                 if (index in flip_cams):
-                    print("{} is in {}".format(index, flip_cams))
                     img = flip( img, -1 )
                 imwrite("last.jpg",img)
 
