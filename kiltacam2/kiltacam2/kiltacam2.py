@@ -1,4 +1,4 @@
-from cv2 import VideoCapture, imwrite,CAP_PROP_BUFFERSIZE, flip
+from cv2 import VideoCapture, imwrite, flip
 import requests
 import sys, os, time
 import json
@@ -18,7 +18,6 @@ def listCameras():
             if not value: 
                 return cams
 
-            cam.set(CAP_PROP_BUFFERSIZE, 1)
             cam.set(3,1280)
             cam.set(4,800)
             cams.append(cam)
@@ -34,8 +33,9 @@ while(True):
         try:
             s, img = cam.read()
             if s:# frame captured without any errors
-                if (s in flip_cams):
-                    img = flip( img, 1 )
+                if (index in flip_cams):
+                    print("{} is in {}".format(index, flip_cams))
+                    img = flip( img, 0 )
                 imwrite("last.jpg",img)
 
                 baseUrl = 'http://{}/cam/api/set'.format(host)
