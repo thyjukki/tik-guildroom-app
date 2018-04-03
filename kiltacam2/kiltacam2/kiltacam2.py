@@ -92,7 +92,7 @@ while True:
         try:
             img = cam.getFrame()
 
-            if img.any():
+            if img:
                 if (index in flip_cams):
                     img = cv2.flip( img, -1 )
                 img = insertTimestamp(img)
