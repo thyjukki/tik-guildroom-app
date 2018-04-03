@@ -24,10 +24,10 @@ def listCameras():
             return cams 
 
 
-print("Found {} camera(s)".format(len(cameras)))
 
 while(True):
     cameras = listCameras()
+    print("Found {} camera(s)".format(len(cameras)))
     for index, cam in enumerate(cameras):
         try:
             s, img = cam.read()
