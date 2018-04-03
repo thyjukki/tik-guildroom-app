@@ -6,7 +6,6 @@ import json
 import datetime
 
 class webcamImageGetter:
-
     def __init__(self, id):
         self.currentFrame = None
         self.CAMERA_WIDTH = 1280
@@ -34,7 +33,7 @@ class webcamImageGetter:
         return self.currentFrame
 
     def isOpened(self):
-        print ("Camera {} is {}".format(self.CAMERA_num, self.capture.isOpened()))
+        print ("Camera {} is {}".format(self.CAMERA_NUM, self.capture.isOpened()))
         return self.capture.isOpened()
 
 token = os.environ.get('KILTACAM_TOKEN', 'empty')
