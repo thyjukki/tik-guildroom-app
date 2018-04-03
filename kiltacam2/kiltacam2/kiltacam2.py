@@ -1,9 +1,11 @@
-from cv2 import VideoCapture, imwrite,CAP_PROP_BUFFERSIZE
+from cv2 import VideoCapture, imwrite,CAP_PROP_BUFFERSIZE, flip
 import requests
 import sys, os, time
+import json
 
 token = os.environ.get('KILTACAM_TOKEN', 'empty')
 host = os.environ.get('KILTACAM_HOST', '127.0.0.1')
+flip_cams = json.loads(os.environ.get('KILTACAM_FLIP_CAMS', '[]'))
 
 print ("Starting camera client for {} host, password {}".format(host, token))
 def listCameras():
@@ -32,6 +34,8 @@ while(True):
         try:
             s, img = cam.read()
             if s:# frame captured without any errors
+                if (s in flip_cams):
+                    img = flip( img, 1 )
                 imwrite("last.jpg",img)
 
                 baseUrl = 'http://{}/cam/api/set'.format(host)
