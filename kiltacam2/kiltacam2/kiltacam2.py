@@ -35,7 +35,7 @@ while(True):
             if s:# frame captured without any errors
                 if (index in flip_cams):
                     print("{} is in {}".format(index, flip_cams))
-                    img = flip( img, 0 )
+                    img = flip( img, -1 )
                 imwrite("last.jpg",img)
 
                 baseUrl = 'http://{}/cam/api/set'.format(host)
