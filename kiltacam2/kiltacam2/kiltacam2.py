@@ -91,8 +91,6 @@ while(True):
     for index, cam in enumerate(cameras):
         try:
             img = cam.getFrame()
-            if img == None:
-                continue
 
             if s:# frame captured without any errors
                 if (index in flip_cams):
