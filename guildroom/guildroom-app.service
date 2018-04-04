@@ -1,0 +1,16 @@
+[Unit]
+Description=guildroom app daemon
+After=network.target
+
+[Service]
+User=root
+Group=www-data
+WorkingDirectory=/home/pi/tik-guildroom-app/guildroom
+Environment="PATH=/home/pi/virtualenvironment/guildroom/bin"
+Environment="DJANGO_DEBUG='False'"
+ExecStart=/home/pi/virtualenvironment/guildroom/bin/gunicorn --access-logfile - --bind 0.0.0.0:80 --threads=3 guildroom.wsgi
+
+
+[Install]
+WantedBy=multi-user.target
+
