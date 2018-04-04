@@ -43,9 +43,10 @@ def add_song_view(request):
                         channel=video.channel,
                         image=video.image,
                         position=(position_count))
-
+            
+            client_ip = request.META['REMOTE_ADDR']
             log = Log(video_id=video.id,
-                      added_by="")
+                      added_by=client_ip)
 
             song.save()
             log.save()
