@@ -8,3 +8,6 @@ class Camera(models.Model):
     name = models.TextField()
     token = models.CharField(max_length=15)
     current = models.ImageField(upload_to='cameras')
+
+    def __str__(self):
+        return "{} ({}[{}])".format(name, ip, position)
