@@ -1,0 +1,41 @@
+variables:
+  GIT_STRATEGY: none
+
+stages:
+  - stop
+  - fetch
+  - migrate
+  - start
+
+  
+job 1:
+  stage: stop
+  script: systemctl stop guildroom-app.service
+  only:
+    - master
+
+job 2:
+  stage: fetch
+  script:
+    - cd /home/pi/tik-guildroom-app/guildroom
+    - git checkout master
+    - git pull
+  only:
+    - master
+
+job 3:
+  stage: migrate
+  script:
+    - cd /home/pi/tik-guildroom-app/guildroom
+    - source /home/pi/virtualenvironment/guildroom/bin/activate
+    - pip install -r requirements.txt
+    - python manage.py collectstatic
+    - python manage.py migrate
+  only:
+    - master
+
+job 4:
+  stage: start
+  script: systemctl start guildroom-app.service
+  only:
+    - master
