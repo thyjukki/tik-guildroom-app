@@ -2,7 +2,7 @@ amqp==2.2.2
 billiard==3.5.0.3
 certifi==2018.1.18
 chardet==3.0.4
-Django==1.11.11
+Django==2.2.24
 django-cors-headers==2.2.0
 djangorestframework==3.7.7
 gunicorn==19.7.1
