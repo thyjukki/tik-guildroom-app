@@ -14,7 +14,7 @@ pip==9.0.1
 python-vlc==3.0.102
 pytz==2018.3
 requests==2.18.4
-setuptools==38.5.2
+setuptools==65.5.1
 six==1.11.0
 urllib3==1.22
 vine==1.1.4
